@@ -44,4 +44,26 @@ In conclusion, our design worked well if it was given a very controlled environm
 A brief discussion of what you've learned about the project and recommendations for anyone who would like to build upon your work. This does not mean a discussion of what you learned about mechatronics in general; that belongs in other places.  It is a discussion of what worked well and what didn't for this device.
 
 
+"Doxygen Main Page"
+
+I was unsure as to how to edit the Doxygen main page, so the software details will go here. The software is split into three main tasks, as detailed in the State diagram below:
+ 
+ ![image](https://github.com/jacoblantin/TermProject/assets/145752175/ee4e2eaf-a906-4c94-a083-bbad83497b92)
+
+Figure 4. State Diagram
+
+Each state is written as a task .py file in the code, namely task0.py, task1.py, and task2.py.
+
+The file task0.py, Init, rotates the panning motor 180 degrees. There is a period of waiting 3 seconds before and waiting 2 seconds after the motor spin for timing purposes for the duel. This is so that the turret can be activated starting at a countdown of 3 seconds, then fire after the 5 seconds of waiting has passed. The motor driver and encoder files are used.
+
+The file task1.py, Scan for Targets, is a modified mlx_cam file that runs a camera scan and rotates the motor accordingly in a loop for a set number of times, this being 4. After four loops have passed, the task moves to the next state. The mlx_cam.py file that Dr. Ridgely has provided to us is modified so that the camera takes an image, and that image is processed so that an average of the “hottest” pixels' position is calculated. That position is given to the microcontroller to adjust the panning motor towards that position. The control loop is used in this task to push the motor incrementally in said direction. This happens four times so that the turret is pointing towards the target by the end of the four loops.
+
+The file task2.py, Fire, sends a signal to the trigger motor with a set Kp of 50 and around 5000 encoder ticks, a tested number that pushes the bevel gears enough to activate the trigger.
+
+A Voltage of 25V and an Current of 1.0A is set for the whole system.
+
+The control, encoder, and motor driver files are all essentially the same to the files from the previous lab. These supporting files are used in the three states to operate the motors.
+
+There is also an extra small task in the main.py file to end the scheduler loop after one run-through of the three main tasks.
+
 
